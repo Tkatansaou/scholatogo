@@ -117,6 +117,111 @@ const RULES = [
       'Conseil de révision : révise par matière, 45 min avec 10 min de pause. La régularité vaut mieux que les nuits blanches !',
     ],
   },
+  {
+    keys: ['multiplication','table','multiplier','fois'],
+    fn: () => [
+      'Tables : table de 5 → toujours 0 ou 5. Table de 9 → somme des chiffres = 9 (18→1+8=9). Astuce 7×8=56 : "5-6-7-8". La multiplication est commutative : 3×7 = 7×3 = 21.',
+      'Pour mémoriser, répète à voix haute en rythme. 1×1=1, 2×2=4, 3×3=9, 4×4=16, 5×5=25, 6×6=36, 7×7=49, 8×8=64, 9×9=81, 10×10=100. Les carrés parfaits sont importants en maths !',
+    ],
+  },
+  {
+    keys: ['force','newton','poids','masse','inertie','accélération'],
+    fn: () => [
+      '3 lois de Newton : 1) Inertie (sans force → rien ne change), 2) F=m×a (Newton = kg×m/s²), 3) Action-Réaction (forces égales et opposées). Poids P = m × g (g ≈ 10 N/kg sur Terre).',
+      'Masse ≠ Poids ! Masse (kg) = quantité de matière, invariable. Poids (N) = force gravitationnelle, varie selon g. Un objet de 10 kg a un poids de 100 N sur Terre mais 16 N sur la Lune (g=1,6).',
+    ],
+  },
+  {
+    keys: ['circuit','électrique','courant','pile','lampe','série','parallèle'],
+    fn: () => [
+      'Circuit électrique = Générateur + Conducteurs + Récepteurs + Interrupteur. En série : si un composant lâche, tout s\'éteint. En parallèle : chaque composant est indépendant. Tes prises sont en parallèle !',
+      'Circuit fermé → courant circule → lampe allumée. Circuit ouvert → courant bloqué → lampe éteinte. L\'interrupteur ouvre ou ferme le circuit.',
+    ],
+  },
+  {
+    keys: ['lumière','optique','réflexion','réfraction','arc-en-ciel'],
+    fn: () => [
+      'Lumière = ligne droite dans milieu homogène. Réflexion : angle i = angle r (miroir). Réfraction : changement de direction en changeant de milieu (paille dans l\'eau). Dispersion : lumière blanche → ROYGBIV.',
+      'L\'arc-en-ciel est causé par la réfraction de la lumière dans les gouttes de pluie. Rouge à l\'extérieur, violet à l\'intérieur. Mnémotechnique : Richard Of York Gave Battle In Vain.',
+    ],
+  },
+  {
+    keys: ['digestion','estomac','intestin','foie','nutriment'],
+    fn: () => [
+      'Tube digestif : Bouche→Œsophage→Estomac→Intestin grêle→Gros intestin→Anus. L\'intestin grêle absorbe. Protides→Acides aminés. Glucides→Glucose. Lipides→Acides gras + Glycérol.',
+      'Le foie produit la bile pour digérer les graisses. La salive contient l\'amylase (amidon→sucres). L\'estomac est acide (HCl). La digestion complète dure 24 à 72 heures.',
+    ],
+  },
+  {
+    keys: ['respiration','poumon','oxygène','bronche','alvéole'],
+    fn: () => [
+      'Respiration cellulaire : Glucose + O₂ → CO₂ + H₂O + Énergie(ATP). Organes : humains→poumons, poissons→branchies, insectes→trachées. 15-20 respirations/min au repos.',
+      'Inspiration : diaphragme se contracte, poumons se dilatent, air entre. Expiration : diaphragme se relâche, air sort. L\'O₂ passe dans le sang via les alvéoles pulmonaires.',
+    ],
+  },
+  {
+    keys: ['immunité','anticorps','vaccin','virus','lymphocyte'],
+    fn: () => [
+      'Système immunitaire : Innée (rapide, non spécifique : macrophages, fièvre) + Adaptative (spécifique : lymphocytes B→anticorps, lymphocytes T→destruction). Les vaccins créent une mémoire immunitaire.',
+      'Un anticorps reconnaît un antigène spécifique. La vaccination injecte des antigènes inoffensifs → ton corps apprend à se défendre. En cas de vraie infection, la réponse est immédiate grâce aux cellules mémoire.',
+    ],
+  },
+  {
+    keys: ['english','anglais','present simple','past simple','verb','hello','greeting'],
+    fn: () => [
+      'Present Simple : He/She/It + V+s. Don\'t/doesn\'t pour la négation. Do/Does pour les questions. Past Simple réguliers : +ed (played, walked). Irréguliers : go→went, eat→ate, be→was/were, have→had.',
+      'Salutations : Hello/Hi (Salut), Good morning (Bonjour matin), Good evening (Bonsoir), How are you? → I\'m fine, thank you. Nice to meet you → Enchanté ! See you → À bientôt !',
+    ],
+  },
+  {
+    keys: ['philosophie','socrate','platon','descartes','ubuntu','éthique'],
+    fn: () => [
+      'Philosophie = amour de la sagesse. 5 branches : Métaphysique, Épistémologie, Éthique, Politique, Esthétique. Descartes : "Je pense, donc je suis." Socrate : "Je sais que je ne sais rien."',
+      'Ubuntu (philosophie africaine) : "Je suis parce que nous sommes." La communauté prime. Platon : allégorie de la caverne. Kant : impératif catégorique ("Agis selon une maxime universalisable").',
+    ],
+  },
+  {
+    keys: ['suite','arithmétique','géométrique','raison','terme','séquence'],
+    fn: () => [
+      'Suite arithmétique : uₙ = u₀ + n×r (raison r constante). Suite géométrique : uₙ = u₀×qⁿ (raison q constante). Exemple : 2,5,8,11 → arithmétique, r=3. 1,2,4,8 → géométrique, q=2.',
+      'Application : intérêts composés → suite géométrique. Capital × (1+taux)ⁿ. 100 000 FCFA à 5%/an → après 10 ans : 100 000 × 1,05¹⁰ ≈ 162 889 FCFA !',
+    ],
+  },
+  {
+    keys: ['probabilité','chance','hasard','aléatoire','dé'],
+    fn: () => [
+      'Probabilité = Cas favorables ÷ Cas possibles. P(A) ∈ [0,1]. P(Ā) = 1−P(A). Dé à 6 faces : P(6)=1/6, P(pair)=3/6=1/2. Indépendance : P(A∩B)=P(A)×P(B).',
+      'Pile ou face : P(pile)=1/2. P(2 fois pile de suite)=1/4. P(événement certain)=1. P(événement impossible)=0. La somme de toutes les probabilités = 1.',
+    ],
+  },
+  {
+    keys: ['colonisation','berlin','togoland','nachtigal','partage afrique'],
+    fn: () => [
+      'Conférence de Berlin (1884-85) : partage de l\'Afrique entre puissances européennes sans consulter les Africains. Togo = protectorat allemand depuis 1884 (traité Nachtigal-Mlapa III à Togoville).',
+      'Après 1914 (WWI), le Togo allemand est partagé entre France et Grande-Bretagne. La partie française devient le Togo indépendant en 1960. Sylvanus Olympio = 1er président.',
+    ],
+  },
+  {
+    keys: ['traite','esclavage','esclaves','commerce triangulaire'],
+    fn: () => [
+      'Commerce triangulaire : Europe (manufactures) ↔ Afrique (esclaves) ↔ Amériques (matières premières). ~12 millions d\'Africains déportés. Abolition française : 27 avril 1848 (Victor Schoelcher).',
+      'La côte togolaise était la "Côte des esclaves". Aného (Petit-Popo) était un port de traite. La traite a duré du XVe au XIXe siècle. Abolition américaine : 1865 (13e amendement).',
+    ],
+  },
+  {
+    keys: ['motivation','découragement','peur','stress','courage','difficile'],
+    fn: (e) => [
+      `${e.prenom}, chaque expert a commencé comme débutant ! Si tu te sens découragé(e), revois les leçons que tu maîtrises pour reprendre confiance. Chaque leçon terminée te rapproche de ton objectif. 💪`,
+      `Le stress avant un exam, c\'est normal — c\'est ton cerveau qui se prépare ! Respire, dors bien, mange équilibré. Travaille régulièrement plutôt qu\'une seule nuit blanche. Tu peux réussir ! 🌟`,
+    ],
+  },
+  {
+    keys: ['santé','dormir','manger','sport','eau','hygiène','concentration'],
+    fn: () => [
+      'Pour bien apprendre : dors 8-9h/nuit (le cerveau consolide les souvenirs pendant le sommeil !), bois 1,5L d\'eau/jour, mange des glucides (énergie) + protéines (concentration) + légumes (vitamines).',
+      'Astuce : évite le téléphone après 21h (lumière bleue perturbe le sommeil). Fais 30 min d\'activité physique par jour — ça améliore la mémoire et réduit le stress. Un cerveau bien reposé apprend 2× mieux !',
+    ],
+  },
 ]
 
 const FALLBACKS = [

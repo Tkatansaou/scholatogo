@@ -26,6 +26,28 @@
   --font:           'Nunito', system-ui, sans-serif;
 }
 
+/* ── Mode sombre ─────────────────────────────────────────── */
+[data-theme="dark"] {
+  --primary:        #4a9fd4;
+  --primary-light:  #1a2f42;
+  --primary-dark:   #2d7db3;
+  --secondary:      #F5A623;
+  --secondary-light:#2a2010;
+  --success:        #2ecc71;
+  --success-light:  #0f2e1a;
+  --error:          #e74c3c;
+  --error-light:    #2e120f;
+  --bg:             #0f1923;
+  --surface:        #1a2535;
+  --text:           #e8edf4;
+  --text-muted:     #94a3b8;
+  --text-light:     #64748b;
+  --border:         #2a3a4e;
+  --shadow-sm:      0 1px 3px rgba(0,0,0,.3);
+  --shadow:         0 4px 16px rgba(0,0,0,.4);
+  --shadow-lg:      0 8px 32px rgba(0,0,0,.5);
+}
+
 /* ── Reset ───────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; -webkit-tap-highlight-color: transparent; }
@@ -1015,6 +1037,48 @@ ul, ol { list-style: none; }
   border: none;
   width: 100%;
 }
+
+/* ── Page Paramètres ─────────────────────────────────────── */
+.param-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.param-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.param-icon { font-size: 1.5rem; flex-shrink: 0; }
+.param-info { flex: 1; }
+.param-label { font-weight: 700; font-size: .95rem; }
+.param-sub { font-size: .78rem; color: var(--text-muted); margin-top: 2px; }
+
+.theme-toggle {
+  width: 48px;
+  height: 26px;
+  background: var(--border);
+  border-radius: 13px;
+  position: relative;
+  transition: background .25s;
+  flex-shrink: 0;
+}
+.theme-toggle.on { background: var(--primary); }
+.theme-toggle .thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transition: left .25s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+}
+.theme-toggle.on .thumb { left: 25px; }
 
 /* ── Animations ──────────────────────────────────────────── */
 @keyframes fadeIn {

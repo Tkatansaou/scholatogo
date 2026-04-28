@@ -1,273 +1,223 @@
 # ScholaTogo — Application d'Aide Scolaire pour le Togo
 
 ## Description
-Application mobile et web d'aide scolaire destinée aux élèves togolais, de la maternelle à la terminale. Strictement alignée sur le programme officiel togolais, conçue pour fonctionner en mode hors ligne, sur smartphones Android à faible connectivité.
+Application web d'aide scolaire pour les élèves togolais, du CP à la Terminale. Strictement offline-first : toutes les données sont stockées dans le localStorage, sans backend ni connexion réseau requise.
 
 **Tagline :** *"Apprends à ton rythme, partout au Togo"*
 
 ## Dépôt GitHub
-- **URL** : https://github.com/Tkatansaou/scholatogo *(à renommer)*
+- **URL** : https://github.com/Tkatansaou/scholatogo
 - **Compte** : Tkatansaou
 - **Branche principale** : `main`
 
 ## Stack technique
 | Couche | Technologie |
 |---|---|
-| Mobile | React Native + Expo (Android prioritaire) |
-| Web PWA | React + Vite (fallback navigateur) |
-| Backend | Node.js + Express |
-| Base de données | PostgreSQL + Redis (cache) |
-| Médias | Cloudflare R2 (audio, images) |
-| IA Tuteur | Claude API (Haiku — faible coût) |
-| Sync offline | PouchDB ↔ CouchDB |
-| Auth | JWT + OTP SMS (Africa's Talking) |
-| SMS | Africa's Talking (couverture Togo, XOF) |
+| Framework | React 18 + Vite 5 |
+| Routeur | react-router-dom v6 — **HashRouter** (offline, sans serveur) |
+| Styles | CSS3 pur — variables CSS, mobile-first 360 px |
+| Police | Nunito (Google Fonts CDN) |
+| Persistance | `localStorage` uniquement — aucun backend |
+| Build | `vite build` — `base: './'` pour compatibilité offline |
 
 ## Structure des fichiers
 ```
-scholatogo/
-├── CLAUDE.md                   # Ce fichier
-├── .gitignore
-├── package.json
-├── vite.config.js
-├── index.html
+Aide_scolaire/
+├── CLAUDE.md               # Ce fichier
+├── .gitignore              # node_modules/, dist/, .DS_Store, *.local
+├── package.json            # name: "scholatogo", React + react-router-dom + Vite
+├── vite.config.js          # base: './' (chemins relatifs pour offline)
+├── index.html              # Point d'entrée HTML, Nunito, theme-color
 │
-├── src/
-│   ├── main.jsx                # Point d'entrée React
-│   ├── App.jsx                 # Routeur principal
-│   ├── index.css               # Styles globaux + variables CSS
-│   │
-│   ├── components/             # Composants réutilisables
-│   │   ├── Navbar.jsx
-│   │   ├── LessonCard.jsx
-│   │   ├── QuizQuestion.jsx
-│   │   ├── ProgressBar.jsx
-│   │   ├── BadgeDisplay.jsx
-│   │   └── KomiChat.jsx        # Tuteur IA
-│   │
-│   ├── pages/                  # Écrans principaux
-│   │   ├── Onboarding.jsx      # Langue → OTP → Classe
-│   │   ├── Dashboard.jsx       # Accueil élève
-│   │   ├── Matieres.jsx        # Liste des matières
-│   │   ├── Lecon.jsx           # Lecteur de leçon
-│   │   ├── Quiz.jsx            # Évaluation
-│   │   ├── Progres.jsx         # Tableau de bord progrès
-│   │   └── Profil.jsx          # Paramètres élève
-│   │
-│   ├── data/                   # Contenu pédagogique (JSON/Markdown)
-│   │   ├── cycles.json         # Maternelle, Primaire, Collège, Lycée
-│   │   ├── matieres.json       # Maths, Français, SVT, PC, HG, Anglais...
-│   │   ├── primaire/
-│   │   │   ├── maths/
-│   │   │   └── francais/
-│   │   ├── college/
-│   │   │   ├── maths/
-│   │   │   ├── francais/
-│   │   │   ├── svt/
-│   │   │   └── physique-chimie/
-│   │   └── lycee/
-│   │       ├── serie-a/
-│   │       ├── serie-c/
-│   │       ├── serie-d/
-│   │       └── serie-g/
-│   │
-│   ├── hooks/                  # Hooks React personnalisés
-│   │   ├── useProgression.js
-│   │   ├── useOffline.js
-│   │   └── useKomi.js          # Appels API tuteur IA
-│   │
-│   └── utils/
-│       ├── storage.js          # localStorage / AsyncStorage
-│       ├── sync.js             # Synchronisation offline
-│       └── formatters.js       # Dates, scores, durées
-│
-├── public/
-│   ├── audio/                  # Narrations MP3 des leçons
-│   ├── images/                 # Schémas, illustrations
-│   └── icons/                  # Icônes matières + badges
-│
-└── backend/                    # API Node.js (dossier séparé ou repo distinct)
-    ├── src/
-    │   ├── routes/
-    │   ├── models/
-    │   ├── services/
-    │   └── middleware/
-    └── package.json
+└── src/
+    ├── main.jsx            # ReactDOM.render dans HashRouter
+    ├── App.jsx             # Routes + RequireAuth + Navbar conditionnelle
+    ├── index.css           # Design system complet (~500 lignes)
+    │
+    ├── components/
+    │   └── Navbar.jsx      # Barre de navigation bas — 4 onglets
+    │
+    ├── pages/
+    │   ├── Onboarding.jsx  # Inscription 4 étapes : langue → cycle → classe → prénom
+    │   ├── Dashboard.jsx   # Accueil : streak, KPIs, dernière leçon, matières, badges
+    │   ├── Matieres.jsx    # Liste des matières avec barres de progression
+    │   ├── Lecons.jsx      # Liste des leçons d'une matière (/:matiereId)
+    │   ├── Lecon.jsx       # Lecteur de leçon + blocs de contenu (/:leconId)
+    │   ├── Quiz.jsx        # QCM 5 questions, score, popup badge (/:leconId)
+    │   ├── Progres.jsx     # KPIs, progression par matière, grille badges
+    │   └── Komi.jsx        # Chatbot tuteur IA — base de règles locale
+    │
+    ├── data/
+    │   └── content.js      # Toutes les données pédagogiques statiques
+    │
+    └── utils/
+        └── storage.js      # Toutes les opérations localStorage
 ```
 
-## Organisation pédagogique
-
-### Cycles et classes
-| Cycle | Classes | Examens |
+## Routes (HashRouter)
+| Hash | Composant | Guard |
 |---|---|---|
-| Maternelle | Petite, Moyenne, Grande section | — |
-| Primaire | CP, CE1, CE2, CM1, CM2 | CEPD |
-| Collège | 6ème, 5ème, 4ème, 3ème | BEPC |
-| Lycée | 2nde, 1ère, Terminale (A/C/D/G) | BAC |
+| `#/` | → redirect | — |
+| `#/onboarding` | `Onboarding` | public |
+| `#/dashboard` | `Dashboard` | RequireAuth |
+| `#/matieres` | `Matieres` | RequireAuth |
+| `#/lecons/:matiereId` | `Lecons` | RequireAuth |
+| `#/lecon/:leconId` | `Lecon` | RequireAuth |
+| `#/quiz/:leconId` | `Quiz` | RequireAuth |
+| `#/progres` | `Progres` | RequireAuth |
+| `#/komi` | `Komi` | RequireAuth |
 
-### Matières par cycle
-| Matière | Primaire | Collège | Lycée |
+`RequireAuth` : si `localStorage` ne contient pas de profil élève → redirect `/onboarding`.
+
+## Données pédagogiques (`src/data/content.js`)
+
+### Exports
+| Export | Type | Description |
+|---|---|---|
+| `CYCLES` | Array | 4 cycles : maternelle, primaire, college, lycee |
+| `CLASSES` | Array | 15 classes : PS, MS, GS, CP → Terminale |
+| `MATIERES` | Array | 8 matières avec couleur et cycles associés |
+| `BADGES` | Array | 7 badges avec condition affichée |
+| `LECONS` | Array | 15 leçons réparties sur CP, 4ème, 3ème, Terminale |
+| `QUESTIONS` | Object | `{ [leconId]: Question[] }` — 5 questions par leçon |
+
+### Leçons disponibles
+| ID | Classe | Matière | Titre |
 |---|---|---|---|
-| Mathématiques | ✓ | ✓ | ✓ |
-| Français | ✓ | ✓ | ✓ |
-| SVT | ✓ | ✓ | ✓ (série D) |
-| Physique-Chimie | — | ✓ | ✓ (série C/D) |
-| Histoire-Géographie | ✓ | ✓ | ✓ |
-| Anglais | — | ✓ | ✓ |
-| Philosophie | — | — | ✓ |
-| Économie/Gestion | — | — | ✓ (série G) |
-| EMC | ✓ | ✓ | — |
+| `cp-maths-1` | CP | Maths | Les chiffres de 0 à 5 |
+| `cp-maths-2` | CP | Maths | Les chiffres de 6 à 10 |
+| `cp-maths-3` | CP | Maths | L'addition simple |
+| `cp-fr-1` | CP | Français | Les voyelles : a, e, i, o, u |
+| `cp-fr-2` | CP | Français | Former des syllabes |
+| `4e-maths-1` | 4ème | Maths | Le théorème de Pythagore |
+| `4e-maths-2` | 4ème | Maths | Les équations du 1er degré |
+| `4e-maths-3` | 4ème | Maths | La proportionnalité |
+| `4e-svt-1` | 4ème | SVT | La cellule, unité du vivant |
+| `4e-svt-2` | 4ème | SVT | La photosynthèse |
+| `4e-fr-1` | 4ème | Français | La nature des mots |
+| `3e-maths-1` | 3ème | Maths | Statistiques |
+| `3e-hist-1` | 3ème | Histoire-Géo | L'indépendance du Togo (1960) |
+| `tle-svt-1` | Terminale | SVT | L'ADN et la génétique |
+| `tle-maths-1` | Terminale | Maths | Les dérivées |
 
-## Modèle de données
+### Blocs de contenu d'une leçon
+Chaque leçon est un tableau `contenu: Block[]`. Types disponibles :
 
-### Leçon
-```js
-{
-  id:          string,        // ex: "maths-4e-pythagore"
-  titre:       string,
-  classe_id:   string,        // "4eme"
-  matiere_id:  string,        // "maths"
-  chapitre_id: string,
-  ordre:       number,
-  contenu_md:  string,        // Markdown enrichi
-  audio_url:   string,        // Fichier MP3 narré
-  duree_min:   number,        // Durée estimée
-  offline_kb:  number,        // Taille téléchargée
-  langue:      'fr' | 'ewe' | 'kabiye'
-}
-```
-
-### Progression élève
-```js
-{
-  eleve_id:    string,
-  lecon_id:    string,
-  statut:      'non_vu' | 'en_cours' | 'termine',
-  score:       number,        // 0-100
-  temps_passe: number,        // secondes
-  date_vu:     string         // ISO
-}
-```
-
-### Question quiz
-```js
-{
-  id:          string,
-  lecon_id:    string,
-  type:        'qcm' | 'vrai_faux' | 'texte_trous' | 'calcul' | 'redaction',
-  enonce:      string,
-  points:      number,
-  choix:       [{ texte, est_correct, explication }],
-  difficulte:  1 | 2 | 3
-}
-```
-
-## Tuteur IA "Komi"
-
-Prompt système :
-```
-Tu es Komi, un enseignant togolais bienveillant. Tu aides un élève de {classe}
-qui étudie "{titre_lecon}" ({matiere}). Programme officiel togolais.
-Réponds en {langue} simple, avec des exemples du quotidien togolais.
-Maximum 3 phrases. Si hors sujet, rappelle gentiment le sujet de la leçon.
-```
-
-- **Modèle :** `claude-haiku-4-5-20251001` (coût ~$0.01/mois/élève actif)
-- **Limite :** 5 questions/jour (offre gratuite), illimité (premium)
-
-## Fonctionnalités
-
-### Offre Gratuite
-- Toutes les leçons primaire et collège
-- 3 quiz par jour
-- Tuteur Komi : 5 questions/jour
-- Streak + badges de base
-- Cache offline : 1 chapitre
-
-### Offre Premium (500 FCFA/mois)
-- Contenu lycée + annales BAC/BEPC corrigées
-- Quiz et tuteur illimités
-- Offline illimité (tout le niveau téléchargeable)
-- Rapport hebdomadaire parent (SMS)
-- Plan de révision personnalisé (J-60 examen)
-
-**Paiement :** Flooz (Moov), T-Money (Togocel) — sans carte bancaire
-
-## Mode hors ligne
-- Compression : images WebP < 50 KB, audio Opus 32 kbps, texte < 5 KB/leçon
-- Téléchargement par chapitre (bouton explicite)
-- Sync différée : quiz offline uploadés à la prochaine connexion
-- Indicateur visuel "hors ligne" dans le header
-
-## Design & UI
-
-### Palette de couleurs
-| Variable CSS | Valeur | Usage |
+| `type` | Rendu | Champs |
 |---|---|---|
-| `--primary` | `#1B6CA8` | Bleu institutionnel — confiance |
-| `--secondary` | `#F5A623` | Or/Soleil — énergie, accents |
-| `--success` | `#27AE60` | Bonne réponse |
-| `--error` | `#E74C3C` | Mauvaise réponse |
-| `--bg` | `#F8F9FA` | Fond (lisible en plein soleil) |
-| `--text` | `#2C3E50` | Texte principal |
+| `intro` | Encadré bleu — accroche | `texte` |
+| `titre` | `<h3>` | `texte` |
+| `texte` | Paragraphe (`pre-line`) | `texte` |
+| `definition` | Encadré gris, titre en bleu | `titre`, `texte` |
+| `exemple` | Encadré vert, badge "Exemple" | `texte` |
+| `retenir` | Encadré orange, icône 📌 | `texte` |
+| `formule` | Bloc sombre, police monospace | `texte` |
+| `liste` | `<ul>` | `items: string[]` |
 
-- **Police :** Nunito (ronde, accessible aux jeunes)
-- **Taille de base :** 16px (petits écrans Android)
-- **Mobile-first :** tout conçu pour écran 360px de large
+### Format d'une question quiz
+```js
+{
+  id:          number,
+  texte:       string,
+  choix:       string[4],   // 4 choix A/B/C/D
+  correct:     number,      // index (0-3) de la bonne réponse
+  explication: string,      // affiché après réponse
+}
+```
+
+## Persistance localStorage (`src/utils/storage.js`)
+
+### Clés
+| Clé | Contenu |
+|---|---|
+| `ast-eleve` | Profil élève `{ prenom, langue, cycleId, classeId, createdAt }` |
+| `ast-progression` | `{ [leconId]: { statut, quizScore, tempsPasse, updatedAt } }` |
+| `ast-streak` | `{ count, lastDate }` — lastDate = `Date.toDateString()` |
+| `ast-badges` | `string[]` — IDs des badges débloqués |
+| `ast-komi` | `Message[]` — historique du chat (max 100 messages) |
+
+### Fonctions exportées
+| Fonction | Description |
+|---|---|
+| `getEleve() / saveEleve() / clearEleve()` | CRUD profil ; `clearEleve` supprime toutes les clés |
+| `getProgression()` | Objet complet `{ [leconId]: données }` |
+| `saveLeconProgress(leconId, data)` | Merge partiel dans la progression |
+| `getLeconProgress(leconId)` | Retourne `{ statut: 'todo' }` par défaut |
+| `getStreak() / updateStreak()` | Streak quotidien — +1 si hier, reset sinon |
+| `getBadges() / awardBadge(id)` | `awardBadge` retourne `false` si déjà possédé |
+| `getStats()` | Calcule `lessonsCompleted, quizPassed, perfectQuiz, totalTime` |
+| `checkAndAwardBadges()` | Évalue les 7 conditions, retourne les nouveaux IDs |
+| `getKomiHistory() / saveKomiMessage(msg)` | Historique chat, trimé à 100 entrées |
 
 ## Gamification
 
-### Badges clés
-| Badge | Condition |
-|---|---|
-| "Premier pas" | Terminer sa 1ère leçon |
-| "Semaine de feu" | 7 jours consécutifs |
-| "Champion Maths" | 90%+ sur 10 quiz maths |
-| "Prêt pour le BAC" | Finir tous les chapitres lycée |
-| "Fierté du Togo" | Partager un résultat |
+### Badges (7 total)
+| ID | Emoji | Condition |
+|---|---|---|
+| `premier-pas` | 🌟 | 1 leçon terminée |
+| `assidu` | 📅 | 3 jours consécutifs |
+| `curieux` | 🔍 | 5 leçons terminées |
+| `studieux` | 📚 | 10 leçons terminées |
+| `semaine-feu` | 🔥 | 7 jours consécutifs |
+| `champion-quiz` | 🏆 | 10 quiz réussis à 80%+ |
+| `perfectionniste` | 💯 | 1 quiz parfait (100%) |
 
-### Niveaux élève
-`Débutant → Apprenti → Studieux → Expert → Maître → Légende`
+### Streak
+La fonction `updateStreak()` compare `Date().toDateString()` à la date sauvegardée :
+- Même jour → pas de changement
+- Hier → `count + 1`
+- Autre → reset à `1`
 
-## Innovations contextuelles
+## Tuteur Komi (`src/pages/Komi.jsx`)
+Chatbot purement local — aucun appel API. Fonctionne offline.
 
-- **WhatsApp Bot :** quiz par message, zéro installation requise
-- **SMS quotidiens :** leçon du jour à 6h00, via Africa's Talking
-- **Bluetooth mesh :** partage de leçons entre élèves sans internet
-- **Radio éducative :** émissions synchronisées avec les leçons de l'app
+- **Mécanisme :** tableau `RULES` avec `{ keys: string[], fn: (eleve) => string[] }` — 15 règles thématiques
+- **Matching :** `lower.includes(k)` après normalisation Unicode (suppression des accents)
+- **Fallback :** 3 messages d'invitation à reformuler si aucune règle ne correspond
+- **Suggestions :** chips affichés uniquement au 1er chargement (avant tout message)
+- **Persistance :** historique dans `localStorage` via `saveKomiMessage` / `getKomiHistory`
 
-## Feuille de route
+## Design system (`src/index.css`)
 
-### MVP — 3 mois
-- [ ] Onboarding (langue → OTP SMS → classe)
-- [ ] Lecteur de leçon offline
-- [ ] Maths + Français, primaire (10 leçons chacun)
-- [ ] Quiz QCM avec score + correction
-- [ ] Streak + 5 badges
-- [ ] Tuteur Komi (Claude Haiku)
-- [ ] APK Android téléchargeable directement
+### Variables CSS principales
+| Variable | Valeur | Usage |
+|---|---|---|
+| `--primary` | `#1B6CA8` | Bleu institutionnel — headers, boutons |
+| `--secondary` | `#F5A623` | Jaune/or — accents, cartes "reprendre" |
+| `--success` | `#27AE60` | Bonne réponse, leçon terminée |
+| `--error` | `#E74C3C` | Mauvaise réponse |
+| `--bg` | `#F8F9FA` | Fond de page |
+| `--surface` | `#FFFFFF` | Fond des cartes |
+| `--text` | `#2C3E50` | Texte principal |
+| `--text-muted` | `#8492A6` | Texte secondaire |
+| `--radius` | `12px` | Arrondi par défaut |
 
-### Version Avancée — 6-12 mois
-- [ ] Collège complet + annales BEPC
-- [ ] Lycée complet (séries A, C, D, G) + annales BAC
-- [ ] Audio narré par voix togolaises
-- [ ] Détection de lacunes automatique
-- [ ] Plan de révision personnalisé
-- [ ] Tableau de bord enseignant
-- [ ] Contenus en éwé et kabyè
+### Classes utilitaires notables
+- `.page` / `.page-header` / `.page-inner` — layout page standard
+- `.btn.btn-primary` / `.btn.btn-secondary` — boutons
+- `.block-intro` / `.block-retenir` / `.block-formule` / `.block-definition` — blocs leçon
+- `.choice-btn` / `.choice-btn.correct` / `.choice-btn.wrong` — boutons quiz
+- `.lecon-reader` / `.lecon-top` / `.lecon-body` / `.lecon-footer` — lecteur leçon
+- `.komi-page` / `.komi-header` / `.komi-messages` / `.msg.msg-komi` / `.msg.msg-user` — chat
 
-### Vision Long Terme
-- [ ] Expansion CEDEAO (Bénin, Côte d'Ivoire, Ghana)
-- [ ] Génération automatique d'exercices par IA
-- [ ] Correction automatique des rédactions (NLP)
-- [ ] Classe virtuelle enseignant ↔ élèves ruraux
+## Matières disponibles par cycle
+| Matière | Couleur | Cycles |
+|---|---|---|
+| Mathématiques | `#3b82f6` | maternelle, primaire, college, lycee |
+| Français | `#8b5cf6` | maternelle, primaire, college, lycee |
+| SVT | `#10b981` | primaire, college, lycee |
+| Physique-Chimie | `#f59e0b` | college, lycee |
+| Histoire-Géo | `#ef4444` | primaire, college, lycee |
+| Anglais | `#06b6d4` | college, lycee |
+| Philosophie | `#6366f1` | lycee |
+| EMC | `#84cc16` | primaire, college |
 
 ## Conventions de code
-- Composants React en **PascalCase**
-- Fonctions et variables en **camelCase**
-- Constantes globales en **MAJUSCULES**
-- IDs de contenu : `{matiere}-{classe}-{slug}` (ex: `maths-4e-pythagore`)
-- Texte affiché toujours en **français** (autres langues via fichiers i18n)
+- Composants React en **PascalCase** — ex : `Dashboard.jsx`, `Navbar.jsx`
+- Fonctions et variables en **camelCase** — ex : `getEleve()`, `saveLeconProgress()`
+- Constantes globales en **MAJUSCULES** — ex : `LECONS`, `MATIERES`, `BADGES`
+- IDs de leçon : `{classe}-{matiere}-{n}` — ex : `4e-maths-1`, `cp-fr-2`
+- Tout le texte affiché en **français**
 - Pas de commentaires sauf logique non évidente
 
 ## Serveur de développement
@@ -276,3 +226,4 @@ npm install
 npm run dev
 # → http://localhost:5173
 ```
+Nom dans `.claude/launch.json` : `scholatogo` (port 5173).

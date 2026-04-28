@@ -4,6 +4,19 @@ const K = {
   STREAK:      'ast-streak',
   BADGES:      'ast-badges',
   KOMI:        'ast-komi',
+  THEME:       'ast-theme',
+}
+
+/* ── Thème ───────────────────────────────────────────────── */
+export const getTheme  = () => localStorage.getItem(K.THEME) || 'light'
+export const saveTheme = (theme) => {
+  localStorage.setItem(K.THEME, theme)
+  document.documentElement.setAttribute('data-theme', theme)
+}
+export const applyTheme = () => {
+  const theme = getTheme()
+  document.documentElement.setAttribute('data-theme', theme)
+  return theme
 }
 
 const parse = (key, fallback) => {
