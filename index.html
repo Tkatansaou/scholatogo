@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+
+    <!-- SEO primaire -->
+    <title>ScholaTogo — Application d'aide scolaire pour les élèves du Togo</title>
+    <meta name="description" content="ScholaTogo aide les élèves togolais du CP à la Terminale à apprendre à leur rythme, partout, même sans connexion internet. Cours, quiz et tuteur virtuel Komi." />
+    <meta name="keywords" content="aide scolaire, Togo, école, lycée, collège, primaire, cours, quiz, CP, terminale, éducation, offline" />
+    <meta name="author" content="ScholaTogo" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://tkatansaou.github.io/scholatogo/" />
+
+    <!-- Open Graph (partage sur réseaux sociaux) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tkatansaou.github.io/scholatogo/" />
+    <meta property="og:title" content="ScholaTogo — Apprends à ton rythme, partout au Togo" />
+    <meta property="og:description" content="Application d'aide scolaire offline pour les élèves togolais. Du CP à la Terminale : cours, quiz et tuteur virtuel Komi. 100% gratuit." />
+    <meta property="og:image" content="https://tkatansaou.github.io/scholatogo/icon-512.png" />
+    <meta property="og:locale" content="fr_TG" />
+    <meta property="og:site_name" content="ScholaTogo" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="ScholaTogo — Aide scolaire offline pour le Togo" />
+    <meta name="twitter:description" content="Cours, quiz et tuteur virtuel pour les élèves togolais du CP à la Terminale. Application gratuite, sans connexion." />
+    <meta name="twitter:image" content="https://tkatansaou.github.io/scholatogo/icon-512.png" />
+
+    <!-- PWA & mobile -->
+    <meta name="theme-color" content="#1B6CA8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="ScholaTogo" />
+
+    <!-- Icônes -->
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <link rel="apple-touch-icon" href="./icon-192.png" />
+
+    <!-- Police -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="./assets/index-BT5pM7Pb.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-bwfNppTl.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
